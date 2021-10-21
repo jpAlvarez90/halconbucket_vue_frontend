@@ -36,22 +36,17 @@
         <img src="https://www.w3schools.com/w3images/underwater.jpg" style="width:100%">
       </div>
     </div>
-    <div class="row mt-2">
-      <div class="col-2"></div>
-      <div class="col-8 rounded-3" id="nav-btns">
-        1 2 3
-      </div>
-      <div class="col-2"></div>
-    </div>
+    <Footer/>
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
-
+import Footer from "../components/Footer.vue";
 export default {
   name: 'Home',
   components: {
+    Footer,
   },
   computed: {
     ...mapState(['contador']),
@@ -94,11 +89,6 @@ body {
   margin-top: 8px;
   vertical-align: middle;
   width: 100%;
-}
-
-#nav-btns{
-  background-color:#009574;
-  color: #ffffff;
 }
 
 /* Responsive layout - makes a two column-layout instead of four columns */

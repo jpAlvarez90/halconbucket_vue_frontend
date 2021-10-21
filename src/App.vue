@@ -4,10 +4,6 @@
       <span class="navbar-brand mb-0 h1" id="page-name">HALCONBUCKET</span>
     </div>
   </nav>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </div>
   <router-view/>
 </template>
 
