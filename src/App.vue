@@ -1,7 +1,12 @@
 <template>
   <nav class="navbar navbar-light bg-light" id="navbar">
     <div class="container-fluid">
-      <span class="navbar-brand mb-0 h1" id="page-name">HALCONBUCKET</span>
+      <span class="navbar-brand mb-0" id="page-name"> 
+        <h4>HALCONBUCKET</h4>
+      </span>
+      <span id="cam">
+        <router-link to="/"><i class="fal fa-camera fs-1"></i></router-link>
+      </span>
     </div>
   </nav>
   <router-view/>
@@ -32,7 +37,9 @@ export default {
 #navbar {
   background-color: #345177 !important;
 }
-
+#cam {
+  display: none;
+}
 #nav {
   padding: 30px;
 }
@@ -44,5 +51,19 @@ export default {
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+
+/* Responsive layout - makes a two column-layout instead of four columns */
+@media screen and (max-width: 800px) {
+  #navbar {
+    background-color: #345177 !important;
+  }
+}
+
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  #cam {
+    display: flex;
+  }
 }
 </style>

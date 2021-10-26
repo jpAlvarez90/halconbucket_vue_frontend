@@ -1,14 +1,12 @@
 <template>
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-iKbFRxucmOHIcpWdX9NTZ5WETOPm0Goy0WmfyNcl52qSYtc2Buk0NCe6jU1sWWNB" crossorigin="anonymous">
-    <div id="footer" class="row">
-      <div class="col-2"></div>
-      <div class="col-8 rounded-3 d-flex justify-content-around" id="nav-btns">
+    <div id="footer">
+      <div class="col-12 d-flex justify-content-around" id="nav-btns">
         <router-link to="/"><i class="fal fa-home"></i></router-link>
         <router-link to="/album"><i class="fal fa-upload"></i></router-link>
-        <router-link to="/"><i class="fal fa-search"></i></router-link>      
-        <router-link to="/"><i class="fal fa-user-circle"></i></router-link>        
+        <router-link to="/search"><i class="fal fa-search"></i></router-link>      
+        <router-link to="/profile"><i class="fal fa-user-circle"></i></router-link>        
       </div>
-      <div class="col-2"></div>
     </div>
 </template>
 
@@ -20,7 +18,8 @@ export default {
 
 <style>
 #footer {
-    padding-top: 13%;
+  padding-top: 13%;
+  width: 100%;
 }
 
 #nav-btns{

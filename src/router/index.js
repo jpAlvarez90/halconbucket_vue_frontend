@@ -17,6 +17,16 @@ const routes = [
     name: 'Album',
     component: () => import('../views/Album.vue')
   },
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: () => import('../views/Profile.vue')
+  },
+  {
+    path: '/search',
+    name: 'Search',
+    component: () => import('../views/Search.vue')
+  },
 ]
 
 const router = createRouter({
