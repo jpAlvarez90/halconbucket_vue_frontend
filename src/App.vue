@@ -53,14 +53,12 @@ export default {
   color: #42b983;
 }
 
-/* Responsive layout - makes a two column-layout instead of four columns */
 @media screen and (max-width: 800px) {
   #navbar {
     background-color: #345177 !important;
   }
 }
 
-/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
 @media screen and (max-width: 600px) {
   #cam {
     display: flex;

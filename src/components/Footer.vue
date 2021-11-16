@@ -18,8 +18,13 @@ export default {
 
 <style>
 #footer {
-  padding-top: 13%;
+  position: fixed;
+  left: 0;
+  bottom: 0;
   width: 100%;
+  background-color: #009574;
+  color: white;
+  text-align: center;
 }
 
 #nav-btns{
