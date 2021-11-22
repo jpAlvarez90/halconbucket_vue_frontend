@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../views/Home.vue'
+import Home from '../views/Public/Home.vue'
 
 const routes = [
   {
@@ -15,22 +15,27 @@ const routes = [
   {
     path: '/album',
     name: 'Album',
-    component: () => import('../views/Album.vue')
+    component: () => import('../views/Gallery/Album.vue')
   },
   {
     path: '/profile',
     name: 'Profile',
-    component: () => import('../views/Profile.vue')
+    component: () => import('../views/Profile/Profile.vue')
   },
   {
     path: '/search',
     name: 'Search',
-    component: () => import('../views/Search.vue')
+    component: () => import('../views/Public/Search.vue')
   },
   {
     path: '/login',
     name: 'login',
-    component: () => import('../views/Login.vue')
+    component: () => import('../views/Auth/Login.vue')
+  },
+  {
+    path: '/register',
+    name: 'register',
+    component: () => import('../views/Auth/Register.vue')
   },
 ]
 

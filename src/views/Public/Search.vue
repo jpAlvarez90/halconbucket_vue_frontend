@@ -1,5 +1,15 @@
 <template>
   <div class="home">
+    <div class="row">
+        <div class="row height d-flex justify-content-center align-items-center">
+        <div class="col-md-6">
+            <div class="form"> 
+                <i class="fa fa-search"></i> 
+                <input type="text" class="form-control form-input" placeholder="Buscar">
+            </div>
+        </div>
+    </div>
+    </div>
     <div class="row"> 
       <div class="column">
         <img src="https://www.w3schools.com/w3images/wedding.jpg" style="width:100%">
@@ -36,15 +46,15 @@
         <img src="https://www.w3schools.com/w3images/underwater.jpg" style="width:100%">
       </div>
     </div>
-    <Footer/>
   </div>
+  <Footer/>
 </template>
 
 <script>
 import { mapState } from "vuex";
-import Footer from "../components/Footer.vue";
+import Footer from "../../components/Footer.vue";
 export default {
-  name: 'Home',
+  name: 'Search',
   components: {
     Footer,
   },
@@ -75,6 +85,54 @@ body {
   -ms-flex-wrap: wrap; /* IE10 */
   flex-wrap: wrap;
   padding: 0 4px;
+}
+.height {
+    height: 20vh
+}
+
+.home {
+  margin-bottom: 8%;
+}
+
+.form {
+    position: relative
+}
+
+.form .fa-search {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: #9ca3af
+}
+
+.form span {
+    position: absolute;
+    right: 17px;
+    top: 13px;
+    padding: 2px;
+    border-left: 1px solid #d1d5db
+}
+
+.left-pan {
+    padding-left: 7px
+}
+
+.left-pan i {
+    padding-left: 10px
+}
+
+.form-input {
+    height: 55px;
+    text-indent: 33px;
+    border-radius: 10px
+}
+
+.form-input:focus {
+    color: black;
+    box-shadow: 0 0 5px #d1d5db;
+    padding: 3px 0px 3px 3px;
+    margin: 5px 1px 3px 0px;
+    border: 1px solid #d1d5db;
 }
 
 /* Create four equal columns that sits next to each other */
