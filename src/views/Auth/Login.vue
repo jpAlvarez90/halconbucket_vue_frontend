@@ -1,4 +1,5 @@
 <template>
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-iKbFRxucmOHIcpWdX9NTZ5WETOPm0Goy0WmfyNcl52qSYtc2Buk0NCe6jU1sWWNB" crossorigin="anonymous">
 <div class="container-fluid h-auto my-5">
   <div class="row text-center">
     <div class="form-signin">
@@ -22,7 +23,7 @@
         </div>
         <button class="w-100 btn btn-lg btn-primary" type="submit">Ingresar</button>
         <div class="d-flex align-items-center justify-content-center pt-4">
-          <p class="mb-0 me-2">¿No tienes cuenta? Registrate</p>
+          <p class="mb-0 me-2">¿No tienes cuenta? <router-link to="/register"><i class="fal fa-user-circle"></i>Registrate</router-link></p>
         </div>
         <p class="mt-5 mb-3 text-muted">©2021 HALCONBUCKET</p>
       </form>

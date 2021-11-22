@@ -11,14 +11,14 @@
                     <div class="row">
                         <div class="col-md-6 mb-4">
                             <div class="form-outline">
-                                <input type="text" id="firstName" class="form-control form-control-lg" />
-                                <label class="form-label" for="firstName">Username</label>
+                                <input type="text" id="username" v-model="user.username" class="form-control form-control-lg" />
+                                <label class="form-label" for="username">Username</label>
                             </div>
                         </div>
                         <div class="col-md-6 mb-4 pb-2">
                             <div class="form-outline">
-                                <input type="email" id="emailAddress" class="form-control form-control-lg" />
-                                <label class="form-label" for="emailAddress">Correo electrónico</label>
+                                <input type="email" id="email" v-model="user.email" class="form-control form-control-lg" />
+                                <label class="form-label" for="email">Correo electrónico</label>
                             </div>
                         </div>
                     </div>
@@ -26,20 +26,20 @@
                     <div class="row">
                         <div class="col-md-6 mb-4 pb-2">
                             <div class="form-outline">
-                                <input type="password" id="password" class="form-control form-control-lg" />
+                                <input type="password" id="password" v-model="user.password" class="form-control form-control-lg" />
                                 <label class="form-label" for="password">Contraseña</label>
                             </div>
                         </div>
                         <div class="col-md-6 mb-4 pb-2">
                             <div class="form-outline">
-                                <input type="password" id="password_repeat" class="form-control form-control-lg" />
+                                <input type="password" id="password_repeat" v-model="user.password" class="form-control form-control-lg" />
                                 <label class="form-label" for="password_repeat">Repetir contraseña</label>
                             </div>
                         </div>
                     </div>
 
                     <div class="mt-4 pt-2">
-                        <input class="btn btn-primary btn-lg" type="submit" value="Enviar" />
+                        <input class="btn btn-primary btn-lg" @click.prevent="registerUser();" value="Enviar" />
                     </div>
 
                     </form>
@@ -57,15 +57,29 @@ import Footer from "../../components/Footer.vue";
 import axios from "axios";
 
 export default {
-  name: 'register',
+    name: 'register',
+    data() {
+        return {
+            user: {},
+        };
+    },
   components: {
     Footer,
   },
   created() {
-      axios.get('http://localhost:3000/get-roles')
-      .then((data) => {
+      axios.get('http://localhost:3000/get-users')
+      .then(({data}) => {
           console.log(data);
       });
+  },
+  methods: {
+      registerUser() {
+          this.user.role_fk_id = 2
+          axios.post('http://localhost:3000/insert-user', this.user)
+            .then(({data}) => {
+                console.log(data);
+            });
+      }
   },
 }
 </script>
