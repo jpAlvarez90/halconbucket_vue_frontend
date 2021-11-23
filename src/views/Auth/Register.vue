@@ -1,48 +1,54 @@
 <template>
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-iKbFRxucmOHIcpWdX9NTZ5WETOPm0Goy0WmfyNcl52qSYtc2Buk0NCe6jU1sWWNB" crossorigin="anonymous">
     <section class="vh-100 gradient-custom">
         <div class="container pt-4 h-100">
             <div class="row justify-content-center align-items-center h-100">
             <div class="col-12 col-lg-9 col-xl-7">
                 <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
                 <div class="card-body p-4 p-md-5">
+                    <img class="mb-4"  alt="halcon" width="92" height="82" src="@/assets/HALCÓN_2016.png"/>
                     <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Registrarse</h3>
-                    <form>
+                    <form class="needs-validation" novalidate>
 
                     <div class="row">
                         <div class="col-md-6 mb-4">
-                            <div class="form-outline">
-                                <input type="text" id="username" v-model="user.username" class="form-control form-control-lg" />
-                                <label class="form-label" for="username">Username</label>
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="floatingUsername" v-model="user.username" placeholder="username" :username="isNameStateValid" required>
+                                <label for="floatingUsername">Username</label>
+
                             </div>
+                                <label class="form-check-label" for="valid-feedback">Or toggle this other radio</label>
+                                <div class="invalid-feedback">More example invalid feedback text</div>
                         </div>
-                        <div class="col-md-6 mb-4 pb-2">
-                            <div class="form-outline">
-                                <input type="email" id="email" v-model="user.email" class="form-control form-control-lg" />
-                                <label class="form-label" for="email">Correo electrónico</label>
+                        <div class="col-md-6 mb-4">
+                            <div class="form-floating">
+                                <input type="email" class="form-control" id="floatingEmail" v-model="user.email" placeholder="Correo electrónico">
+                                <label for="floatingEmail">Correo electrónico</label>
                             </div>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-md-6 mb-4 pb-2">
-                            <div class="form-outline">
-                                <input type="password" id="password" v-model="user.password" class="form-control form-control-lg" />
-                                <label class="form-label" for="password">Contraseña</label>
+                            <div class="form-floating">
+                                <input type="password" class="form-control" id="floatingPassword" v-model="user.password" placeholder="Contraseña">
+                                <label for="floatingPassword">Contraseña</label>
                             </div>
                         </div>
                         <div class="col-md-6 mb-4 pb-2">
-                            <div class="form-outline">
-                                <input type="password" id="password_repeat" v-model="user.password" class="form-control form-control-lg" />
-                                <label class="form-label" for="password_repeat">Repetir contraseña</label>
+                            <div class="form-floating">
+                                <input type="password" class="form-control" id="floatingPasswordRepeat" v-model="user.password" placeholder="Contraseña">
+                                <label for="floatingPassword">Contraseña</label>
                             </div>
                         </div>
                     </div>
 
-                    <div class="mt-4 pt-2">
+                    <div class="mt-1 py-4">
                         <input class="btn btn-primary btn-lg" @click.prevent="registerUser();" value="Enviar" />
                     </div>
 
                     </form>
+                    <router-link to="/" class="text-decoration-none"> Regresar</router-link>
                 </div>
                 </div>
             </div>
@@ -74,13 +80,42 @@ export default {
   },
   methods: {
       registerUser() {
-          this.user.role_fk_id = 2
-          axios.post('http://localhost:3000/insert-user', this.user)
-            .then(({data}) => {
-                console.log(data);
-            });
+        this.$swal({
+            title: 'Registrarse',
+            text: "Confirma que sus datos son correctos",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#088974',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Registrar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                this.user.role_fk_id = 2
+                axios.post('http://localhost:3000/insert-user', this.user)
+                .then(({data}) => {
+                    console.log(data);
+                    this.$swal.fire(
+                        '¡Registrado!',
+                        'registrado correctamente',
+                        'success'
+                    )
+                });
+            }
+        });
+         
+      },
+      isValid() {
+        return this.user.username != '' ? true : false; //your validation criteria goes here
       }
   },
+  computed: {
+      isNameStateValid() {
+        if (this.user.username) {
+          return this.isValid(this.user.username);
+        }
+        return null;
+      }
+    },
 }
 </script>
 
