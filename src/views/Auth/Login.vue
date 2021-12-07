@@ -9,20 +9,20 @@
         <h1 class="h3 mb-3 fw-normal">Iniciar sesión</h1>
 
         <div class="form-floating">
-          <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+          <input type="text" class="form-control" id="floatingInput" placeholder="user_name" v-model="user.username">
           <label for="floatingInput">Username</label>
         </div>
         <div class="form-floating mb-3">
-          <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+          <input type="password" class="form-control" id="floatingPassword" placeholder="Password" v-model="user.password">
           <label for="floatingPassword">Contraseña</label>
         </div>
 
         <div class="checkbox mb-3">
-          <label>
+          <!-- <label>
             <input type="checkbox" value="remember-me"> Recordarme
-          </label>
+          </label> -->
         </div>
-        <button class="w-100 btn btn-lg btn-primary" type="submit">Ingresar</button>
+        <button class="w-100 btn btn-lg btn-primary" @click="login" type="button">Ingresar</button>
         <div class="d-flex align-items-center justify-content-center pt-4">
           <p class="mb-0 me-2">¿No tienes cuenta? <router-link to="/register" class="text-decoration-none"> Registrate</router-link></p>
         </div>
@@ -31,17 +31,41 @@
     </div>
 </div>
 </div>
-<Footer/>
+<FooterComponent/>
 </template>
 
 <script>
-import Footer from "../../components/Footer.vue";
+import FooterComponent from "../../components/FooterComponent.vue";
+import axios from "axios";
 
 export default {
   name: 'Login',
-  components: {
-    Footer,
+  data() {
+      return {
+          user: {},
+      };
   },
+  components: {
+    FooterComponent,
+  },
+  methods: {
+    login(){
+      axios.post('http://localhost:3000/login', this.user)
+      .then(({data}) => {
+          console.log(data);
+          localStorage.setItem('token', data.token);
+          localStorage.setItem('user', JSON.stringify(data.user));
+          this.$swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: '¡Bienvenido!',
+            showConfirmButton: false,
+            timer: 1500
+          });
+          this.$router.push({ name: 'Home' });
+      });
+    }
+  }
 }
 </script>
 

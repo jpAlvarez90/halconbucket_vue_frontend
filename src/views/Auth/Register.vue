@@ -15,10 +15,7 @@
                             <div class="form-floating">
                                 <input type="text" class="form-control" id="floatingUsername" v-model="user.username" placeholder="username" :username="isNameStateValid" required>
                                 <label for="floatingUsername">Username</label>
-
                             </div>
-                                <label class="form-check-label" for="valid-feedback">Or toggle this other radio</label>
-                                <div class="invalid-feedback">More example invalid feedback text</div>
                         </div>
                         <div class="col-md-6 mb-4">
                             <div class="form-floating">
@@ -48,18 +45,19 @@
                     </div>
 
                     </form>
-                    <router-link to="/" class="text-decoration-none"> Regresar</router-link>
+                    <router-link to="/login" class="text-decoration-none"> Ya tengo una cuenta</router-link>
+                    <p class="mt-5 mb-3 text-muted">©2021 HALCONBUCKET</p>
                 </div>
                 </div>
             </div>
             </div>
         </div>
     </section>
-  <Footer/>
+  <FooterComponent/>
 </template>
 
 <script>
-import Footer from "../../components/Footer.vue";
+import FooterComponent from "../../components/FooterComponent.vue";
 import axios from "axios";
 
 export default {
@@ -69,52 +67,55 @@ export default {
             user: {},
         };
     },
-  components: {
-    Footer,
-  },
-  created() {
-      axios.get('http://localhost:3000/get-users')
-      .then(({data}) => {
-          console.log(data);
-      });
-  },
-  methods: {
-      registerUser() {
-        this.$swal({
-            title: 'Registrarse',
-            text: "Confirma que sus datos son correctos",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#088974',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Registrar'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                this.user.role_fk_id = 2
-                axios.post('http://localhost:3000/insert-user', this.user)
-                .then(({data}) => {
-                    console.log(data);
-                    this.$swal.fire(
-                        '¡Registrado!',
-                        'registrado correctamente',
-                        'success'
-                    )
-                });
-            }
-        });
-         
-      },
-      isValid() {
-        return this.user.username != '' ? true : false; //your validation criteria goes here
-      }
-  },
-  computed: {
-      isNameStateValid() {
-        if (this.user.username) {
-          return this.isValid(this.user.username);
+    components: {
+        FooterComponent,
+    },
+    created() {
+        //   axios.get('http://localhost:3000/get-users')
+        //   .then(({data}) => {
+        //       console.log(data);
+        //   });
+    },
+    methods: {
+        registerUser() {
+            this.$swal({
+                title: 'Registrarse',
+                text: "Confirma que sus datos son correctos",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#088974',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Registrar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.user.role_fk_id = 2
+                    axios.post('http://localhost:3000/register', this.user)
+                    .then(({data}) => {
+                        console.log(data);
+                        localStorage.setItem('token', data.token);
+                        localStorage.setItem('user', JSON.stringify(data.user));
+                        this.$swal.fire(
+                            '¡Registrado!',
+                            'Bienvenido a HALCONBUCKET',
+                            'success'
+                        );
+                        this.$router.push({ name: 'Home' });
+                    });
+                }
+            });
+            
+        },
+        isValid() {
+            return this.user.username != '' ? true : false; //your validation criteria goes here
         }
-        return null;
-      }
+    },
+    computed: {
+        isNameStateValid() {
+            if (this.user.username) {
+            return this.isValid(this.user.username);
+            }
+            return null;
+        }
     },
 }
 </script>
@@ -126,7 +127,7 @@ export default {
 } */
 
 .card {
-    margin-bottom: 30%;
+    margin-bottom: 12%;
 }
 
 section {

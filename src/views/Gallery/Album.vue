@@ -32,15 +32,15 @@
             <p class="lead">Foto 3</p>
         </div>
     </div>
-  <Footer/>
+  <FooterComponent/>
 </template>
 
 <script>
-import Footer from "../../components/Footer.vue";
+import FooterComponent from "../../components/FooterComponent.vue";
 export default {
     name: 'Album',
     components:{
-        Footer,
+        FooterComponent,
     }
 }
 </script>

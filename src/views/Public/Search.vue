@@ -47,16 +47,16 @@
       </div>
     </div>
   </div>
-  <Footer/>
+  <FooterComponent/>
 </template>
 
 <script>
 import { mapState } from "vuex";
-import Footer from "../../components/Footer.vue";
+import FooterComponent from "../../components/FooterComponent.vue";
 export default {
   name: 'Search',
   components: {
-    Footer,
+    FooterComponent,
   },
   computed: {
     ...mapState(['contador']),
