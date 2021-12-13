@@ -9,11 +9,11 @@
         <h1 class="h3 mb-3 fw-normal">Iniciar sesión</h1>
 
         <div class="form-floating">
-          <input type="text" class="form-control" id="floatingInput" placeholder="user_name" v-model="user.username">
+          <input type="text" class="form-control" id="floatingInput" placeholder="user_name" v-model="user.username" autocomplete="off">
           <label for="floatingInput">Username</label>
         </div>
         <div class="form-floating mb-3">
-          <input type="password" class="form-control" id="floatingPassword" placeholder="Password" v-model="user.password">
+          <input type="password" class="form-control" id="floatingPassword" placeholder="Password" v-model="user.password" autocomplete="off">
           <label for="floatingPassword">Contraseña</label>
         </div>
 

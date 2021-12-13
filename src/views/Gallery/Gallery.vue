@@ -5,18 +5,18 @@
     <div class="card custom-card">
       <div class="card-body">
         <div id="photo" class="mb-4">
-          <img src="https://www.sunsetlearning.com/wp-content/uploads/2019/09/User-Icon-Grey-300x300.png" alt="Profile">
+          <img :src="album.url_cover" class="cover_img" alt="Profile">
         </div>
         <span class="lead">
-          <h1>{{user.username}}</h1>
-          <h6>{{user.email}}</h6>
+          <h1>{{album.album_name}}</h1>
+          <small>By {{user.username}}</small>
           <!-- <h6>45 seguidores</h6> -->
         </span>
       </div>
     </div>
 
     <div class="row px-5 pt-5">
-      <h4 class="text-start col-6">Álbumes</h4>
+      <h4 class="text-start col-6">Imágenes</h4>
       <span class="text-end col-6">
         <span class="btn-add-album" data-bs-toggle="modal" data-bs-target="#exampleModal">+ Agregar</span>
       </span>
@@ -24,25 +24,25 @@
     
     <div class="container px-4" id="custom-cards">
       <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
-        <span v-if="albums.length == 0">
+        <span v-if="images.length == 0">
           <span class="lead">
-            <h2>Aún no hay álbumes</h2>
-            <h6>Crea tu primer álbum haciendo clic en +Agregar</h6>
+            <h2>Aún no hay imágenes</h2>
+            <h6>Publica tu primera imagen haciendo clic en +Agregar</h6>
           </span>
         </span>
-        <span v-else v-for="album in albums" :key="album.album_id">
-          <div class="col" @click="openAlbum(album.album_id)">
+        <span v-else v-for="image in images" :key="image.id_album_images">
+          <div class="col img-card" data-bs-toggle="modal" data-bs-target="#exampleModal2" @click="showImg(image.img_name, image.album_images)">
             <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg" 
-            :style="`background: url('${album.url_cover}') no-repeat center center;`">
+            :style="`background: url('${image.album_images}') no-repeat center center;`">
               <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
-                <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">{{album.album_name}}</h2>
+                <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">{{image.img_name}}</h2>
                 <ul class="d-flex list-unstyled mt-auto">
                   <li class="me-auto">
                     <i class="fal fa-user-circle lead"></i>
                   </li>
                   <li class="d-flex align-items-center">
                     <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"></use></svg>
-                    <small>By {{album.username}}</small>
+                    <small>By {{user.username}}</small>
                   </li>
                 </ul>
               </div>
@@ -58,17 +58,17 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Agregar álbum</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Agregar imagen</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <form>
             <div class="mb-3">
-              <label for="recipient-name" class="col-form-label">Nombre del álbum</label>
-              <input type="text" class="form-control" id="recipient-name" v-model="album_name" autocomplete="off">
+              <label for="recipient-name" class="col-form-label">Título de la imagen</label>
+              <input type="text" class="form-control" id="recipient-name" v-model="img_name" autocomplete="off">
             </div>
             <div class="mb-3">
-                <label for="recipient-name" class="col-form-label">Imagen del álbum</label>
+                <label for="recipient-name" class="col-form-label">Imagen</label>
                 <input type="file" class="form-control" id="photoInput" @click="preview">
             </div>
             <div class="row mt-4">
@@ -81,7 +81,22 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <button type="button" class="btn btn-primary" id="btn-save" @click="addAlbum">Publicar</button>
+          <button type="button" class="btn btn-primary" id="btn-save" @click="addImg">Publicar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal preview image -->
+  <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel2">{{tempTitle}}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <img :src="tempImg" alt="temp" class="cover_img">
         </div>
       </div>
     </div>
@@ -92,37 +107,42 @@
 <script>
 import FooterComponent from "../../components/FooterComponent.vue";
 import axios from "axios";
-const $ = require('jquery')
-window.$ = $
 
 export default {
-  name: 'Profile',
-  components: {
-    FooterComponent,
-  },
-  data() {
-    return {
+  name: "albumgallery",
+  data(){
+      return {
         user: JSON.parse(localStorage.getItem('user')),
-        albums: [],
-        album_name: '',
+        album: [],
+        images: [],
         img_name: '',
         photoCoded: null,
         previewPhoto: null,
-    };
+        tempImg: null,
+        tempTitle: '',
+        album_id: this.$route.params.album_id,
+      }
+  },
+  components:{
+      FooterComponent,
   },
   async created() {
-    await axios.get(`http://localhost:3000/get-album-by-user/${this.user.user_id}`)
-    .then(({data}) => {
-        this.albums = data.result;
-    });
+      await axios.get(`http://localhost:3000/get-album/${this.$route.params.album_id}`)
+      .then(({data}) => {
+        this.album = data.result;
+      });
+      await axios.get(`http://localhost:3000/get-album-images-by-album/${this.$route.params.album_id}`)
+      .then(({data}) => {
+        this.images = data.results;
+      });
   },
   methods: {
-    addAlbum() {
-      console.log(this.album_name);
-      axios.post(`http://localhost:3000/insert-album`,{ album_name: this.album_name, url_cover: this.photoCoded.src.split('base64,')[1], user_fk_id: this.user.user_id})
-      .then(() => {
-          this.$router.go();
-      });
+    addImg() {
+        axios.post(`http://localhost:3000/insert-album-images`, 
+        { img_name: this.img_name, album_images: this.photoCoded.src.split('base64,')[1], album_fk_id: this.album_id})
+        .then(() => {
+            this.$router.go();
+        });
     },
     preview() {
       const inputFile = document.querySelector('#photoInput');
@@ -145,7 +165,6 @@ export default {
               reader.readAsDataURL(file);
           }
       });
-      console.log(image);
       this.photoCoded = image;
 
       btnSend.onclick = e => {
@@ -171,36 +190,21 @@ export default {
             this.img_name = name;
         }
     },
-    openAlbum(album_id){
-        this.$router.push(`/album/${album_id}`);
+    showImg(title, image){
+      this.tempImg = null;
+      this.tempImg = image;
+      this.tempTitle = '';
+      this.tempTitle = title;
     },
-  }
+  },
 }
 </script>
 
 <style scoped>
-#photo i {
-  font-size: 1000%;
-  color: black;
-  padding-bottom: 5%;
+.cover_img {
+  width : 100%;
 }
-
-#photo img {
-  border-radius: 50%;
-  width: 124px;
-  height: 124px;
-  object-fit: cover;
-}
-
-.custom-card {
-  background: #feffff;
-  max-width: 90%;
-  margin: 0 auto;
-  box-shadow: 0px 4px 8px rgb(20 57 128 / 8%);
-  border-radius: 8px;
-}
-
-.btn-add-album {
+.img-card {
   cursor: pointer;
 }
 </style>

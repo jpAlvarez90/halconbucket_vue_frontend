@@ -37,6 +37,16 @@ const routes = [
     name: 'register',
     component: () => import('../views/Auth/Register.vue')
   },
+  {
+    path: '/uploadphoto',
+    name: 'uploadphoto',
+    component: () => import('../views/Gallery/UploadPhoto.vue')
+  },
+  {
+    path: '/album/:album_id',
+    name: 'albumgallery',
+    component: () => import('../views/Gallery/Gallery.vue')
+  },
 ]
 
 const router = createRouter({
